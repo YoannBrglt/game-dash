@@ -9,6 +9,7 @@ tmp/
 
 # Adonis
 apps/backend/tmp/
+.adonisjs/
 
 # Éditeurs / OS
 .DS_Store
