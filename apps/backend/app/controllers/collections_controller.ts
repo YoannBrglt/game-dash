@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import Collection from '#models/collection'
 
 export default class CollectionsController {
-    async index({ request, response, auth }: HttpContext) {
+    async index({ request, auth }: HttpContext) {
         const user = auth.getUserOrFail()
         const { obtained, cropId, mutationId, rarityId, mutationType } = request.qs()
 
@@ -35,10 +35,12 @@ export default class CollectionsController {
         return query
     }
 
-    async update({ params, request }: HttpContext) {
-        const collection = await Collection.findOrFail(params.id)
+    async update({ params, request, auth }: HttpContext) {
+        const user = auth.getUserOrFail()
         const { obtained, notes } = request.only(['obtained', 'notes'])
-
+        
+       const collection = await Collection.query().where('id', params.id).where('userId', user.id).firstOrFail()
+       
         collection.obtained = obtained
         collection.obtainedAt = obtained ? DateTime.now() : null
         if (notes !== undefined) {

@@ -20,7 +20,7 @@ router
     router
       .group(() => {
         router.post('signup', [controllers.NewAccount, 'store'])
-        router.post('login', [controllers.AccessTokens, 'store'])
+        router.post('login', [controllers.Session, 'store'])
       })
       .prefix('auth')
       .as('auth')
@@ -28,12 +28,16 @@ router
     router
       .group(() => {
         router.get('profile', [controllers.Profile, 'show'])
-        router.post('logout', [controllers.AccessTokens, 'destroy'])
+        router.post('logout', [controllers.Session, 'destroy'])
       })
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+    
+      router.group(()=> {
+        router.get('collections',[controllers.Collections,'index'])
+        router.put('collections/:id',[controllers.Collections,'update'])
+      }).use(middleware.auth())
   })
   .prefix('/api/v1')
 
-router.resource('collections', controllers.Collections).apiOnly()
