@@ -1,0 +1,15 @@
+# Node
+node_modules/
+build/
+tmp/
+
+# Env
+.env
+!.env.example
+
+# Adonis
+apps/backend/tmp/
+
+# Éditeurs / OS
+.DS_Store
+*.log
