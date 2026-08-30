@@ -1,0 +1,11 @@
+# Normalise tout en LF, peu importe l'OS qui commit/checkout
+* text=auto eol=lf
+
+# Binaires à ne jamais toucher (pas de conversion de fin de ligne)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
