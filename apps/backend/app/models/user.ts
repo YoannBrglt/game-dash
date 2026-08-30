@@ -3,6 +3,10 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { afterCreate } from '@adonisjs/lucid/orm'
+import Crop from '#models/crop'
+import Mutation from '#models/mutation'
+import Possession from '#models/possession'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   static accessTokens = DbAccessTokensProvider.forModel(User)
@@ -14,5 +18,24 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
       return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase()
     }
     return `${first.slice(0, 2)}`.toUpperCase()
+  }
+
+  @afterCreate()
+  static async createPossessions(user: User) {
+    const crops = await Crop.all();
+    const mutations = await Mutation.all();
+
+    const rows = crops.flatMap((crop) =>
+      mutations.map((mutation) => ({
+        userId: user.id,
+        cropId: crop.id,
+        mutationId: mutation.id,
+        obtained: false,
+      }))
+    );
+
+    if (rows.length > 0) {
+      await Possession.createMany(rows)
+    }
   }
 }

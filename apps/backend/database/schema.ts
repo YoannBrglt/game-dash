@@ -32,6 +32,90 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class CropSchema extends BaseModel {
+  static $columns = ['createdAt', 'harvestType', 'id', 'imageUrl', 'name', 'patchYieldMax', 'patchYieldMin', 'rarityId', 'slots', 'updatedAt'] as const
+  $columns = CropSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare harvestType: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare imageUrl: string | null
+  @column()
+  declare name: string
+  @column()
+  declare patchYieldMax: number | null
+  @column()
+  declare patchYieldMin: number | null
+  @column()
+  declare rarityId: number
+  @column()
+  declare slots: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class MutationSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'order', 'type', 'updatedAt'] as const
+  $columns = MutationSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare order: number | null
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class PossessionSchema extends BaseModel {
+  static $columns = ['createdAt', 'cropId', 'id', 'mutationId', 'notes', 'obtained', 'obtainedAt', 'updatedAt', 'userId'] as const
+  $columns = PossessionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare cropId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare mutationId: number
+  @column()
+  declare notes: string | null
+  @column()
+  declare obtained: boolean
+  @column.dateTime()
+  declare obtainedAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class RaritySchema extends BaseModel {
+  static $columns = ['colorHex', 'createdAt', 'id', 'name', 'rank', 'updatedAt'] as const
+  $columns = RaritySchema.$columns
+  @column()
+  declare colorHex: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare rank: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

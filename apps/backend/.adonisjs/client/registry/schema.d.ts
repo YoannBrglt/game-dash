@@ -55,4 +55,64 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'possessions.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/possessions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['index']>>>
+    }
+  }
+  'possessions.store': {
+    methods: ["POST"]
+    pattern: '/possessions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['store']>>>
+    }
+  }
+  'possessions.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/possessions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['show']>>>
+    }
+  }
+  'possessions.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/possessions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['update']>>>
+    }
+  }
+  'possessions.destroy': {
+    methods: ["DELETE"]
+    pattern: '/possessions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/possessions_controller').default['destroy']>>>
+    }
+  }
 }
