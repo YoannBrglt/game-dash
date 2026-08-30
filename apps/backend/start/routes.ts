@@ -35,3 +35,5 @@ router
       .use(middleware.auth())
   })
   .prefix('/api/v1')
+
+router.resource('collections', controllers.Collections).apiOnly()

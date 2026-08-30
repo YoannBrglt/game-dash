@@ -30,6 +30,36 @@ const routes = {
     tokens: [{"old":"/api/v1/account/logout","type":0,"val":"api","end":""},{"old":"/api/v1/account/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/account/logout","type":0,"val":"account","end":""},{"old":"/api/v1/account/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'collections.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/collections',
+    tokens: [{"old":"/collections","type":0,"val":"collections","end":""}],
+    types: placeholder as Registry['collections.index']['types'],
+  },
+  'collections.store': {
+    methods: ["POST"],
+    pattern: '/collections',
+    tokens: [{"old":"/collections","type":0,"val":"collections","end":""}],
+    types: placeholder as Registry['collections.store']['types'],
+  },
+  'collections.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/collections/:id',
+    tokens: [{"old":"/collections/:id","type":0,"val":"collections","end":""},{"old":"/collections/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['collections.show']['types'],
+  },
+  'collections.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/collections/:id',
+    tokens: [{"old":"/collections/:id","type":0,"val":"collections","end":""},{"old":"/collections/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['collections.update']['types'],
+  },
+  'collections.destroy': {
+    methods: ["DELETE"],
+    pattern: '/collections/:id',
+    tokens: [{"old":"/collections/:id","type":0,"val":"collections","end":""},{"old":"/collections/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['collections.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }
