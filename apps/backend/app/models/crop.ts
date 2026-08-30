@@ -1,7 +1,7 @@
 import { CropSchema } from '#database/schema'
 import { hasMany, belongsTo, afterCreate } from '@adonisjs/lucid/orm'
 import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
-import Possession from '#models/possession'
+import Collection from '#models/collection'
 import Rarity from '#models/rarity'
 import User from '#models/user'
 import Mutation from '#models/mutation'
@@ -10,11 +10,11 @@ export default class Crop extends CropSchema {
     @belongsTo(() => Rarity)
     declare rarity: BelongsTo<typeof Rarity>
 
-    @hasMany(() => Possession)
-    declare possessions: HasMany<typeof Possession>
+    @hasMany(() => Collection)
+    declare collections: HasMany<typeof Collection>
 
     @afterCreate()
-    static async createPossessionsForAllUsers(crop: Crop) {
+    static async createCollectionsForAllUsers(crop: Crop) {
         const users = await User.all()
         const mutations = await Mutation.all()
 
@@ -28,7 +28,7 @@ export default class Crop extends CropSchema {
         )
 
         if (rows.length > 0) {
-            await Possession.createMany(rows)
+            await Collection.createMany(rows)
         }
     }
 }

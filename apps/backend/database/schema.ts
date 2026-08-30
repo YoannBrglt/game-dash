@@ -32,6 +32,29 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class CollectionSchema extends BaseModel {
+  static $columns = ['createdAt', 'cropId', 'id', 'mutationId', 'notes', 'obtained', 'obtainedAt', 'updatedAt', 'userId'] as const
+  $columns = CollectionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare cropId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare mutationId: number
+  @column()
+  declare notes: string | null
+  @column()
+  declare obtained: boolean
+  @column.dateTime()
+  declare obtainedAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class CropSchema extends BaseModel {
   static $columns = ['createdAt', 'harvestType', 'id', 'imageUrl', 'name', 'patchYieldMax', 'patchYieldMin', 'rarityId', 'slots', 'updatedAt'] as const
   $columns = CropSchema.$columns
@@ -74,29 +97,6 @@ export class MutationSchema extends BaseModel {
   declare type: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-}
-
-export class PossessionSchema extends BaseModel {
-  static $columns = ['createdAt', 'cropId', 'id', 'mutationId', 'notes', 'obtained', 'obtainedAt', 'updatedAt', 'userId'] as const
-  $columns = PossessionSchema.$columns
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
-  @column()
-  declare cropId: number
-  @column({ isPrimary: true })
-  declare id: number
-  @column()
-  declare mutationId: number
-  @column()
-  declare notes: string | null
-  @column()
-  declare obtained: boolean
-  @column.dateTime()
-  declare obtainedAt: DateTime | null
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-  @column()
-  declare userId: number
 }
 
 export class RaritySchema extends BaseModel {

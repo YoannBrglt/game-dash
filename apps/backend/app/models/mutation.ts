@@ -1,16 +1,16 @@
 import { MutationSchema } from '#database/schema'
 import { hasMany, afterCreate } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
-import Possession from '#models/possession'
+import Collection from '#models/collection'
 import Crop from '#models/crop'
 import User from '#models/user'
 
 export default class Mutation extends MutationSchema {
-    @hasMany(() => Possession)
-    declare possessions: HasMany<typeof Possession>
+    @hasMany(() => Collection)
+    declare collections: HasMany<typeof Collection>
 
     @afterCreate()
-    static async createPossessionsForAllUsers(mutation: Mutation) {
+    static async createCollectionsForAllUsers(mutation: Mutation) {
         const users = await User.all()
         const crops = await Crop.all()
 
@@ -24,7 +24,7 @@ export default class Mutation extends MutationSchema {
         )
 
         if (rows.length > 0) {
-            await Possession.createMany(rows)
+            await Collection.createMany(rows)
         }
     }
 }
