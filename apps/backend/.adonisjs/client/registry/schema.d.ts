@@ -27,12 +27,12 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/user').loginValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'profile.profile.show': {
-    methods: ["GET","HEAD"]
+    methods: ["GET", "HEAD"]
     pattern: '/api/v1/account/profile'
     types: {
       body: {}
@@ -51,12 +51,12 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
     }
   }
   'collections.index': {
-    methods: ["GET","HEAD"]
+    methods: ["GET", "HEAD"]
     pattern: '/collections'
     types: {
       body: {}
@@ -80,7 +80,7 @@ export interface Registry {
     }
   }
   'collections.show': {
-    methods: ["GET","HEAD"]
+    methods: ["GET", "HEAD"]
     pattern: '/collections/:id'
     types: {
       body: {}
@@ -92,7 +92,7 @@ export interface Registry {
     }
   }
   'collections.update': {
-    methods: ["PUT","PATCH"]
+    methods: ["PUT", "PATCH"]
     pattern: '/collections/:id'
     types: {
       body: {}

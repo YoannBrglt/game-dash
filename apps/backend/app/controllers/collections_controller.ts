@@ -3,15 +3,12 @@ import { DateTime } from 'luxon'
 import Collection from '#models/collection'
 
 export default class CollectionsController {
-    async index({ request, response }: HttpContext) {
-        const { userId, obtained, cropId, mutationId, rarityId, mutationType } = request.qs()
-
-        if (!userId) {
-            return response.badRequest({ message: 'Le paramètre userId est requis' })
-        }
+    async index({ request, response, auth }: HttpContext) {
+        const user = auth.getUserOrFail()
+        const { obtained, cropId, mutationId, rarityId, mutationType } = request.qs()
 
         const query = Collection.query()
-            .where('userId', userId)
+            .where('userId', user.id)
             .preload('crop', (cropQuery) => cropQuery.preload('rarity'))
             .preload('mutation')
 
