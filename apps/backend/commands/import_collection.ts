@@ -3,7 +3,7 @@ import type { CommandOptions } from '@adonisjs/core/types/ace'
 import { readFileSync } from 'node:fs'
 import Crop from '#models/crop'
 import Mutation from '#models/mutation'
-import Possession from '#models/possession'
+import Collection from '#models/collection'
 
 
 // Certains noms ont changé entre ton ancien CSV et le référentiel basé sur le wiki
@@ -30,8 +30,8 @@ const mutationColumnMap: Record<string, string> = {
   Max: 'Max',
 }
 
-export default class ImportPossessions extends BaseCommand {
-  static commandName = 'import:possessions'
+export default class ImportCollection extends BaseCommand {
+  static commandName = 'import:collections'
   static description = 'Importe la collections depuis un export CSV du tableau de suivi google sheets de magic garden'
 
   static options: CommandOptions = { startApp: true }
@@ -76,7 +76,7 @@ export default class ImportPossessions extends BaseCommand {
         const obtained = cols[colIndex]?.trim().toUpperCase() === 'TRUE'
         const userId = this.userId
 
-        await Possession.updateOrCreate(
+        await Collection.updateOrCreate(
           { cropId, mutationId, userId },
           { obtained }
         )
@@ -84,6 +84,6 @@ export default class ImportPossessions extends BaseCommand {
       }
     }
 
-    this.logger.success(`${imported} possessions importées/mises à jour.`)
+    this.logger.success(`${imported} collections importées/mises à jour.`)
   }
 }
