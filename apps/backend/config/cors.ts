@@ -44,7 +44,7 @@ const corsConfig = defineConfig({
   /**
    * Cache CORS preflight response for N seconds.
    */
-  maxAge: 90,
+  maxAge: 86400,
 })
 
 export default corsConfig

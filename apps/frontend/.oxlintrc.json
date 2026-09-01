@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "import", "jsx-a11y"],
+  "jsPlugins": ["./node_modules/oxlint-plugin-query/dist/index.js"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "oxlint-plugin-query/exhaustive-deps": "error",
+    "oxlint-plugin-query/no-rest-destructuring": "warn",
+    "oxlint-plugin-query/stable-query-client": "error",
+    "oxlint-plugin-query/no-unstable-deps": "error"
+  },
+  "ignorePatterns": ["dist", "routeTree.gen.ts"]
+}
