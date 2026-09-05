@@ -1,4 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL
+// On retire un éventuel slash final : sinon VITE_API_URL="http://host/" + path="/api/..."
+// produit une URL à double slash que le routeur Adonis ne résout pas (404).
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, '')
 
 export class ApiError extends Error {
     status: number
@@ -12,7 +14,9 @@ export async function apiFetch<T>(
     path: string,
     options: RequestInit = {}
 ): Promise<T> {
-    const res = await fetch(`${API_URL}${path}`, {
+    // Robuste que `path` soit passé avec ou sans slash initial.
+    const url = `${API_URL}/${path.replace(/^\/+/, '')}`
+    const res = await fetch(url, {
         ...options,
         credentials: 'include', // indispensable pour transmettre le cookie de session
         headers: {

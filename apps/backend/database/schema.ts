@@ -81,12 +81,14 @@ export class CropSchema extends BaseModel {
 }
 
 export class MutationSchema extends BaseModel {
-  static $columns = ['createdAt', 'description', 'id', 'name', 'order', 'type', 'updatedAt'] as const
+  static $columns = ['createdAt', 'description', 'iconUrl', 'id', 'name', 'order', 'type', 'updatedAt'] as const
   $columns = MutationSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column()
   declare description: string | null
+  @column()
+  declare iconUrl: string | null
   @column({ isPrimary: true })
   declare id: number
   @column()

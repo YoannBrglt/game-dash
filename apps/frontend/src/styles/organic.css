@@ -1,0 +1,279 @@
+/*
+ * Organic — design system importé depuis claude.ai/design
+ * (projet "Design system dashboard collections", écran "Collection Dashboard").
+ *
+ * Scopé sous `.organic-theme` : le reste de l'app (login/signup, thème shadcn
+ * "neutral") n'est pas touché. Toute règle qui ciblait `:root`/`body` dans la
+ * source cible ici `.organic-theme` lui-même.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
+
+.organic-theme {
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
+
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
+
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
+
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-heading-weight: 400;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*
+ * #root (index.css, gabarit Vite par défaut) impose une largeur fixe
+ * (1126px) et une bordure verticale à toute l'app — d'où les bandes
+ * blanches sur les côtés du dashboard. On neutralise ça uniquement quand
+ * .organic-theme est monté (les autres routes gardent ce gabarit) et on
+ * étend le fond Organic derrière le contenu centré ci-dessus, plutôt que
+ * de laisser voir le fond blanc de body.
+ * --color-bg n'est défini que sur .organic-theme, un descendant de body et
+ * #root : ces sélecteurs ciblent des ancêtres, la valeur est dupliquée ici.
+ */
+body:has(.organic-theme) { background: #f5ead8; }
+#root:has(.organic-theme) { width: 100%; border-inline: none; }
+
+.organic-theme, .organic-theme *, .organic-theme *::before, .organic-theme *::after { box-sizing: border-box; }
+
+.organic-theme h1, .organic-theme h2, .organic-theme h3, .organic-theme h4,
+.organic-theme h5, .organic-theme h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+.organic-theme h1 { font-size: 42px; }
+.organic-theme h2 { font-size: 32px; }
+.organic-theme h3 { font-size: 25px; }
+.organic-theme h4 { font-size: 20px; }
+.organic-theme h5 { font-size: 16px; }
+.organic-theme h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+.organic-theme p { margin: 0 0 var(--space-3); }
+.organic-theme a { color: var(--color-accent-700); text-underline-offset: 3px; }
+.organic-theme a:hover { color: var(--color-accent-600); }
+.organic-theme img { display: block; max-width: 100%; }
+.organic-theme figure { margin: 0; }
+.organic-theme figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.organic-theme .text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.organic-theme :focus { outline: none; }
+.organic-theme :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.organic-theme ::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+.organic-theme .washed { filter: saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94); }
+
+.organic-theme .hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.organic-theme .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: 999px;
+}
+.organic-theme .btn svg { display: block; }
+.organic-theme .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.organic-theme .btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.organic-theme .btn-primary:hover { background: var(--color-accent-600); }
+.organic-theme .btn-primary:active { background: var(--color-accent-700); }
+.organic-theme .btn-secondary { border-color: var(--color-divider); }
+.organic-theme .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.organic-theme .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.organic-theme .btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.organic-theme .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.organic-theme .btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.organic-theme .btn-icon { width: 36px; height: 36px; padding: 0; }
+.organic-theme .btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.organic-theme .field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.organic-theme .input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: 999px; padding-inline: 14px;
+}
+.organic-theme .input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.organic-theme .input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+.organic-theme textarea.input { min-height: 90px; resize: vertical; }
+.organic-theme .radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.organic-theme .radio input, .organic-theme .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.organic-theme .radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.organic-theme .radio:hover .dot { border-color: var(--color-accent); }
+.organic-theme .radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.organic-theme .radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.organic-theme .seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: 999px;
+}
+.organic-theme .seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.organic-theme .seg-opt span { white-space: nowrap; }
+.organic-theme .seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.organic-theme .seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.organic-theme .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.organic-theme .seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.organic-theme .card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: calc(var(--radius-lg) * 1.15); background: var(--color-surface);
+}
+.organic-theme .card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.organic-theme .card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.organic-theme .card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.organic-theme .card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.organic-theme .elev-sm { box-shadow: var(--shadow-sm); }
+.organic-theme .elev-md { box-shadow: var(--shadow-md); }
+.organic-theme .elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.organic-theme .tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.organic-theme .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.organic-theme .tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.organic-theme .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.organic-theme .tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.organic-theme .nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.organic-theme .nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.organic-theme .nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.organic-theme .nav a:hover, .organic-theme .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — page: collection dashboard (issu du <style> inline de l'écran) — */
+.organic-theme .plant-card { position: relative; border: 2px solid transparent; transition: transform .15s ease; }
+.organic-theme .plant-card:hover { transform: translateY(-3px); }
+.organic-theme .plant-card.locked { opacity: 0.85; }
+.organic-theme .rarity-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.organic-theme .mut-pill { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 600; cursor: default; }
+.organic-theme .mut-pill.mut-muted { opacity: 0.5; }
+.organic-theme .icon-badge { display: flex; align-items: center; justify-content: center; border-radius: 50%; flex: none; }
+.organic-theme ::-webkit-scrollbar { width: 8px; }
+@keyframes organic-shimmer { 0% { background-position: -150% 0; } 100% { background-position: 250% 0; } }
+.organic-theme .mut-pill.mut-gold, .organic-theme .mut-pill.mut-rainbow { background-size: 250% 100%; animation: organic-shimmer 2.8s linear infinite; }
+.organic-theme .gilded { position: relative; }
+.organic-theme .organic-toast {
+  width: 100%;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.organic-theme .organic-toast[data-starting-style],
+.organic-theme .organic-toast[data-ending-style] {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* — dialog — */
+.organic-theme .dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4); z-index: 90;
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.organic-theme .dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: calc(var(--radius-lg) * 1.15); z-index: 91;
+  background: var(--color-surface); box-shadow: var(--shadow-lg); color: var(--color-text);
+}
+.organic-theme .dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 20px;
+}
+.organic-theme .dialog-body { font-size: 14px; opacity: 0.85; }
+.organic-theme .dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+.organic-theme .gilded::before {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit; padding: 2px;
+  background: linear-gradient(115deg, oklch(0.9 0.15 88), oklch(0.6 0.16 60), oklch(0.95 0.08 95), oklch(0.6 0.16 60), oklch(0.9 0.15 88));
+  background-size: 250% 100%; animation: organic-shimmer 3.2s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+}

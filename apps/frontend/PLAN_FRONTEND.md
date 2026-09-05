@@ -84,33 +84,34 @@ Progression suivie via les cases à cocher `[x]`.
 ## Étape 3 — Dashboard
 
 ### Layout général
-- [ ] Layout dashboard avec navigation par onglets (shadcn `Tabs`)
-- [ ] Onglet "Collections" (premier et seul onglet pour l'instant, structure prête pour en accueillir d'autres plus tard — ex. Phase 3 follow system)
-- [ ] Header avec infos utilisateur + logout
+- [ ] Layout dashboard avec navigation par onglets (shadcn `Tabs`) — différé : un seul onglet pour l'instant, pas encore nécessaire (design "simple pour le moment")
+- [x] Onglet "Collections" (premier et seul onglet pour l'instant, structure prête pour en accueillir d'autres plus tard — ex. Phase 3 follow system)
+- [x] Header avec infos utilisateur + logout
 
 ### Onglet Collections — Lecture
-- [ ] Query TanStack Query → `GET api/v1/collections`
-- [ ] Types TypeScript pour la réponse (Crop, Mutation, Possession)
-- [ ] Affichage des crops en grille (shadcn `Card`)
-- [ ] Affichage de l'image de chaque crop (URL fournie dans l'objet crop)
-- [ ] Affichage des 13 mutations par crop (checkbox/badge par mutation, obtenue ou non)
-- [ ] Regroupement/filtrage par rareté (Common → Celestial)
-- [ ] État de chargement (skeletons shadcn)
-- [ ] État d'erreur (message + retry)
-- [ ] État vide (si aucune donnée)
+- [x] Query TanStack Query → `GET api/v1/collections`
+- [x] Types TypeScript pour la réponse (Crop, Mutation, Collection)
+- [x] Affichage des crops en grille (shadcn `Card`), groupée par section de rareté
+- [x] Affichage de l'image de chaque crop (URL fournie dans l'objet crop)
+- [x] Affichage des 13 mutations par crop (pastille par mutation, obtenue ou non)
+- [x] Regroupement/filtrage par rareté (Common → Celestial) — sections + filtre dropdown
+- [x] État de chargement (skeletons shadcn)
+- [x] État d'erreur (message + retry)
+- [x] État vide (si aucune donnée / filtres sans résultat)
 
 ### Onglet Collections — Mise à jour
-- [ ] Interaction UI pour cocher/décocher une mutation obtenue sur un crop (checkbox ou toggle par mutation)
-- [ ] Mutation TanStack Query → `PUT api/v1/collections/:id`
-- [ ] Update optimiste : `onMutate` (annuler les queries en cours, snapshot du cache, appliquer le changement immédiatement), `onError` (rollback via le snapshot), `onSettled` (invalidation pour resynchroniser avec le serveur)
-- [ ] Gestion des erreurs de mise à jour (rollback automatique + toast d'erreur)
-- [ ] Feedback visuel de sauvegarde (toast shadcn ou indicateur discret)
+- [x] Interaction UI pour cocher/décocher une mutation obtenue sur un crop (pastille cliquable par mutation)
+- [x] Mutation TanStack Query → `PUT api/v1/collections/:id`
+- [x] Update optimiste : `onMutate` (annuler les queries en cours, snapshot du cache, appliquer le changement immédiatement), `onError` (rollback via le snapshot), `onSettled` (invalidation pour resynchroniser avec le serveur)
+- [x] Gestion des erreurs de mise à jour (rollback automatique via le snapshot)
+- [x] Feedback visuel de sauvegarde (toast Organic avec bouton "Annuler", `@base-ui/react/toast` — pas le toast shadcn de `components/ui/toast.tsx`, thèmes différents)
+- [x] Confirmation avant de décocher une mutation déjà obtenue (`@base-ui/react/alert-dialog`, stylé `.dialog`/`.dialog-backdrop`) — cocher reste immédiat (annulable via le toast), décocher est jugé destructif
 
 ### Divers / polish
-- [ ] Recherche/filtre texte sur les crops (nom)
-- [ ] Filtre par type de mutation (`base`, `weather`, `specific`, `rarity`)
-- [ ] Responsive (mobile/desktop)
-- [ ] Emplacement prévu pour couleurs/icônes de mutation à venir (structure de composant extensible plutôt que valeurs codées en dur)
+- [x] Recherche/filtre texte sur les crops (nom)
+- [x] Filtre par type de mutation (`base`, `weather`, `specific`, `rarity`)
+- [x] Responsive (grille fluide `auto-fill`, pas de media query nécessaire ; pas testé sur device réel)
+- [x] Emplacement prévu pour couleurs/icônes de mutation à venir (`MutationBadge` isolé, `rarityColors.ts` en fallback tant que `colorHex` n'est pas seedé)
 
 ---
 
@@ -123,3 +124,7 @@ Progression suivie via les cases à cocher `[x]`.
 - ~~Décider workspaces npm vs projets indépendants~~ → **pas de workspaces** : `apps/backend` et `apps/frontend` restent indépendants (bugs npm connus sur les workspaces, pas de code partagé pour l'instant).
 - ~~Décider react-hook-form vs @tanstack/react-form pour les formulaires~~ → **`@tanstack/react-form` + `Field` (shadcn) retenu** pour login et signup, cohérent avec le reste de la stack TanStack. `react-hook-form`/`@hookform/resolvers` retirés (`signup.tsx` importait un composant `@/components/ui/form` jamais généré, cassant le typecheck).
 - Bug corrigé : dans les guards de route (`beforeLoad` de `/login` et `/signup`), le `throw redirect(...)` était placé à l'intérieur du même `try` que la vérification de session, donc avalé par le `catch` — la redirection vers `/dashboard` pour un utilisateur déjà connecté ne se déclenchait jamais. Le `redirect` doit être levé en dehors du `try/catch`.
+- Bug corrigé : `login`/`signup`/`getProfile` traitaient la réponse HTTP comme l'objet `User` brut, alors que le backend wrappe tout dans `{ data: ... }` (`{ data: { user: ... } }` pour login/signup) via `ctx.serialize()`. Vérifié en live contre le backend (signup/profile/collections) avant d'écrire le code du dashboard.
+- `apiFetch` normalise maintenant les slashs (`VITE_API_URL` avec ou sans `/` final, chemin avec ou sans `/` initial) — un `VITE_API_URL` avec slash final produisait une URL à double slash que le routeur Adonis renvoie en 404.
+- `rarity.colorHex` n'est jamais renseigné par le seeder (`01_rarity_seeder.ts`) — toujours `null` en base actuellement. Le front utilise une palette de fallback (`features/collections/lib/rarityColors.ts`) tant que ce n'est pas seedé ; si vous voulez de vraies couleurs par rareté, il faudra compléter le seeder.
+- Dashboard (Étape 3) : pas de recherche serveur — `GET /collections` est chargé sans filtres (dataset petit, ~70 crops × 13 mutations) et tout le filtrage (recherche, rareté, type de mutation, obtenues seulement) se fait côté client en mémoire.
